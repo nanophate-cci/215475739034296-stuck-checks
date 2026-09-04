@@ -26,4 +26,6 @@ Success criteria: workflow `status=running` and `stopped_at=null` after every jo
 
 ## Context
 
-Uses existing org context `dev-context` (`72dd40a5-33a6-4d54-b172-13086549ebf6`). Creating a dedicated `repro-stuck-checks` context returned 403 from `/api/v2/context` with this CLI token.
+Uses existing org context `tf-rate-limit-test` (`67b2a592-8e68-467e-afce-b0fa3f7d4c76` (All members; dummy VAR_* only)). Creating a dedicated `repro-stuck-checks` context returned 403 from `/api/v2/context` with this CLI token.
+
+`dev-context` is restricted to `test-group` and project `context-job-check`, so jobs on this repo returned `unauthorized` immediately (deny path, `stopped_at` set — not PIPE-9769).
