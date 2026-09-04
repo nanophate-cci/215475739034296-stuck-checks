@@ -1,0 +1,48 @@
+version: 2.1
+
+jobs:
+  tests-ci:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: Fail like Rox tests-ci
+          command: |
+            echo "simulated test failure (upstream job, no context)"
+            exit 1
+
+  post-test-results:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: Context job that still runs after tests-ci
+          command: |
+            echo "post-test-results"
+            echo "REPRO_STUCK_CHECKS=${REPRO_STUCK_CHECKS:-unset}"
+
+  lint:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - run:
+          name: Context-only lint
+          command: |
+            echo "lint"
+            echo "REPRO_STUCK_CHECKS=${REPRO_STUCK_CHECKS:-unset}"
+
+workflows:
+  tests_ci_pr:
+    jobs:
+      - tests-ci
+      - post-test-results:
+          context:
+            - repro-stuck-checks
+          requires:
+            - tests-ci: [success, failed, canceled]
+
+  lint:
+    jobs:
+      - lint:
+          context:
+            - repro-stuck-checks

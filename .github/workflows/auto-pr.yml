@@ -1,0 +1,28 @@
+name: Auto PR
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Touch a file so the bot opens a PR
+        run: |
+          date -u >> bot-trigger.txt
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          branch: bot/not-available
+          title: "bot: trigger context jobs as github-actions[bot]"
+          commit-message: "bot: trigger context jobs as github-actions[bot]"
+          body: |
+            Bot-authored PR for Intercom 215475739034296.
+            Actor should be github-actions[bot], which is the attempt at
+            permissions-service :not-available (PIPE-9769).
+          delete-branch: false
