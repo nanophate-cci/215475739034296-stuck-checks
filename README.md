@@ -22,3 +22,8 @@ Two trigger paths:
 2. **GitHub Actions bot PR** (`.github/workflows/auto-pr.yml`) — attempts the `:not-available` path. `github-actions[bot]` often has no usable CircleCI user profile, which is how permissions-service returns `not_available`.
 
 Success criteria: workflow `status=running` and `stopped_at=null` after every job is `failed`, and the GitHub check stays pending.
+
+
+## Context
+
+Uses existing org context `dev-context` (`72dd40a5-33a6-4d54-b172-13086549ebf6`). Creating a dedicated `repro-stuck-checks` context returned 403 from `/api/v2/context` with this CLI token.

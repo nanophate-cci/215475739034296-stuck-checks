@@ -37,7 +37,7 @@ workflows:
       - tests-ci
       - post-test-results:
           context:
-            - repro-stuck-checks
+            - dev-context
           requires:
             - tests-ci: [success, failed, canceled]
 
@@ -45,4 +45,4 @@ workflows:
     jobs:
       - lint:
           context:
-            - repro-stuck-checks
+            - dev-context
